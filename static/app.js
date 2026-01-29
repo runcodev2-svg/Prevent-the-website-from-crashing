@@ -1,39 +1,53 @@
-async function load() {
-  const res = await fetch("/jobs");
-  const data = await res.json();
-  const table = document.getElementById("table");
-
-  table.innerHTML = `
-    <tr>
-      <th>URL</th><th>นาที</th><th>สถานะ</th>
-      <th>ล่าสุด</th><th>ล้มเหลว</th>
-    </tr>
-  `;
-
-  Object.values(data).forEach(j => {
-    table.innerHTML += `
-      <tr>
-        <td>${j.url}</td>
-        <td>${j.interval}</td>
-        <td>${j.last_status}</td>
-        <td>${j.last_time}</td>
-        <td>${j.fail_count}</td>
-      </tr>
-    `;
-  });
-}
-
-async function create() {
-  await fetch("/create", {
+function createJob() {
+  fetch("/create", {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       url: document.getElementById("url").value,
       interval: document.getElementById("interval").value
     })
-  });
-  load();
+  }).then(() => loadJobs())
 }
 
-setInterval(load, 3000);
-load();
+function deleteJob(id) {
+  if (!confirm("ลบงานนี้?")) return
+  fetch(`/delete/${id}`, { method: "POST" })
+    .then(() => loadJobs())
+}
+
+function editJob(id, url, interval) {
+  const newUrl = prompt("URL ใหม่", url)
+  if (!newUrl) return
+  const newInterval = prompt("นาทีใหม่", interval)
+  if (!newInterval) return
+
+  fetch(`/edit/${id}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url: newUrl, interval: newInterval })
+  }).then(() => loadJobs())
+}
+
+function loadJobs() {
+  fetch("/jobs")
+    .then(r => r.json())
+    .then(data => {
+      let html = ""
+      for (const id in data) {
+        const j = data[id]
+        html += `
+        <div class="job">
+          <b>${id}</b><br>
+          ${j.url}<br>
+          ทุก ${j.interval} นาที<br>
+          สถานะ: ${j.last_status} (${j.last_time})<br>
+          <button onclick="editJob('${id}','${j.url}',${j.interval})">✏️</button>
+          <button onclick="deleteJob('${id}')">🗑</button>
+        </div>`
+      }
+      document.getElementById("jobs").innerHTML = html
+    })
+}
+
+loadJobs()
+setInterval(loadJobs, 5000)
