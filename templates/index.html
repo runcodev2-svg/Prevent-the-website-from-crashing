@@ -1,37 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
-<meta charset="UTF-8">
-<title>Keep Alive Manager</title>
-<link rel="stylesheet" href="/static/style.css">
+  <meta charset="UTF-8">
+  <title>Web Keep Alive</title>
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-<div class="card">
-  <h1>🚀 Keep Alive Manager</h1>
+<h1>🚀 ระบบยิงเว็บไม่ให้ดับ</h1>
 
-  <input id="url" placeholder="https://your-site.com">
+<div class="create">
+  <input id="url" placeholder="https://example.com">
   <select id="interval">
-    <option>1</option><option>2</option><option>3</option>
-    <option>5</option><option>10</option>
-    <option>20</option><option>30</option>
+    <option value="1">1 นาที</option>
+    <option value="5">5 นาที</option>
+    <option value="10">10 นาที</option>
+    <option value="20">20 นาที</option>
+    <option value="30">30 นาที</option>
   </select>
-
-  <button onclick="create()">➕ สร้างงาน</button>
+  <button onclick="createJob()">สร้างงาน</button>
 </div>
 
-<div class="card">
-  <h2>📡 งานที่กำลังรัน</h2>
-  <table id="table">
-    <tr>
-      <th>URL</th>
-      <th>นาที</th>
-      <th>สถานะ</th>
-      <th>ล่าสุด</th>
-      <th>ล้มเหลว</th>
-    </tr>
-  </table>
-</div>
+<hr>
+
+<div id="jobs"></div>
 
 <script src="/static/app.js"></script>
 </body>
