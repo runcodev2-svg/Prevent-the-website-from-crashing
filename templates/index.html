@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Keep Alive Manager</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="card">
+  <h1>🚀 Keep Alive Manager</h1>
+
+  <input id="url" placeholder="https://your-site.com">
+  <select id="interval">
+    <option>1</option><option>2</option><option>3</option>
+    <option>5</option><option>10</option>
+    <option>20</option><option>30</option>
+  </select>
+
+  <button onclick="create()">➕ สร้างงาน</button>
+</div>
+
+<div class="card">
+  <h2>📡 งานที่กำลังรัน</h2>
+  <table id="table">
+    <tr>
+      <th>URL</th>
+      <th>นาที</th>
+      <th>สถานะ</th>
+      <th>ล่าสุด</th>
+      <th>ล้มเหลว</th>
+    </tr>
+  </table>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
